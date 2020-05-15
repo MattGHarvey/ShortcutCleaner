@@ -38,6 +38,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TextBox1 = new System.Windows.Forms.TextBox();
+            this.lnkGitHub = new System.Windows.Forms.LinkLabel();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,13 +50,13 @@
             // 
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Text = "ShortcutCleaner";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // bClean
             // 
-            this.bClean.Location = new System.Drawing.Point(198, 286);
+            this.bClean.Location = new System.Drawing.Point(159, 164);
             this.bClean.Name = "bClean";
             this.bClean.Size = new System.Drawing.Size(181, 72);
             this.bClean.TabIndex = 0;
@@ -71,7 +72,7 @@
             this.aboutToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(175, 100);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 133);
             // 
             // cleanNowToolStripMenuItem
             // 
@@ -92,6 +93,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // TextBox1
             // 
@@ -108,11 +110,24 @@
     "the GNU General Public License v3.0";
             this.TextBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
+            // lnkGitHub
+            // 
+            this.lnkGitHub.AutoSize = true;
+            this.lnkGitHub.Location = new System.Drawing.Point(182, 106);
+            this.lnkGitHub.Name = "lnkGitHub";
+            this.lnkGitHub.Size = new System.Drawing.Size(138, 20);
+            this.lnkGitHub.TabIndex = 4;
+            this.lnkGitHub.TabStop = true;
+            this.lnkGitHub.Text = "Find Us on Github";
+            this.lnkGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGitHub_LinkClicked);
+            this.lnkGitHub.Resize += new System.EventHandler(this.lnkGitHub_Resize);
+            // 
             // formMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 417);
+            this.ClientSize = new System.Drawing.Size(530, 290);
+            this.Controls.Add(this.lnkGitHub);
             this.Controls.Add(this.TextBox1);
             this.Controls.Add(this.bClean);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -121,7 +136,9 @@
             this.Name = "formMain";
             this.Text = "ShortCut Cleaner";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.formMain_FormClosing);
             this.Load += new System.EventHandler(this.formMain_Load);
+            this.Resize += new System.EventHandler(this.formMain_Resize);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -138,6 +155,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         internal System.Windows.Forms.TextBox TextBox1;
+        internal System.Windows.Forms.LinkLabel lnkGitHub;
     }
 }
 

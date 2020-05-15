@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ShortcutCleaner
 {
@@ -23,10 +24,10 @@ namespace ShortcutCleaner
 
         private void formMain_Load(object sender, EventArgs e)
         {
-            timer1.Interval = 600000;
+            timer1.Interval = 7200000;
             timer1.Start();
             this.ShowInTaskbar = false;
-
+            clean();
 
 
         }
@@ -66,7 +67,7 @@ namespace ShortcutCleaner
                 if (extension == checkEx)
                 {
 
-                   // File.Delete(fileName);
+                    File.Delete(fileName);
 
 
 
@@ -111,6 +112,44 @@ namespace ShortcutCleaner
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/MattGHarvey/ShortcutCleaner");
+        }
+        private void OnApplicationExit(object sender, EventArgs e)
+        {
+            //Cleanup so that the icon will be removed when the application is closed
+            notifyIcon1.Visible = false;
+        }
+
+        private void lnkGitHub_Resize(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void formMain_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+              
+                notifyIcon1.Visible = true;
+                this.Hide();
+
+            }
+           
+        }
+
+        private void formMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+            e.Cancel = true;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
