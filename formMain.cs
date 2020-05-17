@@ -1,105 +1,89 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-//using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace ShortcutCleaner
 {
     public partial class formMain : Form
     {
+        [DllImport("Shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+        public const int SHCNE_ASSOCCHANGED = 0x8000000;
+        public const int SHCNF_IDLIST = 0;
+        public string commonPath;
+        public string specialPath;
+
         public formMain()
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Minimized;
-            
-
         }
 
         private void formMain_Load(object sender, EventArgs e)
         {
-            timer1.Interval = 7200000;
-            timer1.Start();
+            commonPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
+            specialPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            fileSystemWatcher1.Path = commonPath;
+            fileSystemWatcher2.Path = specialPath;
             this.ShowInTaskbar = false;
-            clean();
-
-
+            loadClean(commonPath);
+            loadClean(specialPath);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // TODO: Insert monitoring activities here.
-            clean();
-
         }
-        private void clean()
+
+        private void clean(string cleanPath)
         {
-            //  eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string checkEx = @".lnk";
 
-            foreach (string fileName in Directory.GetFiles(path))
+            string extension = Path.GetExtension(cleanPath);
+            if (extension == checkEx)
             {
-                string extension = Path.GetExtension(fileName);
-                if (extension == checkEx)
-                {
-
-                    File.Delete(fileName);
-
-
-
-
-
-                }
-
+                Thread.Sleep(2000);
+                File.Delete(cleanPath);
             }
 
-            path = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
-            foreach (string fileName in Directory.GetFiles(path))
+            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        private void loadClean(string cleanPath)
+        {
+            string checkEx = @".lnk";
+
+            foreach (string fileName in Directory.GetFiles(cleanPath))
             {
                 string extension = Path.GetExtension(fileName);
                 if (extension == checkEx)
                 {
-
                     File.Delete(fileName);
-
-
-
-
-
                 }
-
             }
         }
 
         private void bClean_Click(object sender, EventArgs e)
         {
-            clean();
+            clean(commonPath);
+            clean(specialPath);
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
-      
-
-
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
 
         private void cleanNowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.clean();
-
+            this.clean(specialPath);
+            this.clean(commonPath);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,13 +95,13 @@ namespace ShortcutCleaner
 
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void lnkGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/MattGHarvey/ShortcutCleaner");
         }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             //Cleanup so that the icon will be removed when the application is closed
@@ -126,19 +110,15 @@ namespace ShortcutCleaner
 
         private void lnkGitHub_Resize(object sender, EventArgs e)
         {
-          
         }
 
         private void formMain_Resize(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
-              
                 notifyIcon1.Visible = true;
                 this.Hide();
-
             }
-           
         }
 
         private void formMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -150,6 +130,20 @@ namespace ShortcutCleaner
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void fileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
+        {
+        }
+
+        private void fileSystemWatcher1_Created(object sender, FileSystemEventArgs e)
+        {
+            clean(e.FullPath);
+        }
+
+        private void fileSystemWatcher2_Created(object sender, FileSystemEventArgs e)
+        {
+            clean(e.FullPath);
         }
     }
 }
