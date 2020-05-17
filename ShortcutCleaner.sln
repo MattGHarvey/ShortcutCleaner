@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShortcutCleaner", "ShortcutCleaner.csproj", "{0B8D5734-98A7-430D-A26D-A3E514C4938B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ShortcutCleaner Installer", "..\ShortcutCleaner Installer\ShortcutCleaner Installer.vdproj", "{4EA62BA7-DF7A-4389-9EF0-0F7C7C93B656}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{0B8D5734-98A7-430D-A26D-A3E514C4938B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B8D5734-98A7-430D-A26D-A3E514C4938B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B8D5734-98A7-430D-A26D-A3E514C4938B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA62BA7-DF7A-4389-9EF0-0F7C7C93B656}.Debug|Any CPU.ActiveCfg = Debug
+		{4EA62BA7-DF7A-4389-9EF0-0F7C7C93B656}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
